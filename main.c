@@ -13,7 +13,6 @@
  *
  * Return: 0 on success, or an exit status code on failure.
  */
-
 int main(int argc, char **argv, char **env)
 {
 	char *input = NULL;
@@ -26,44 +25,19 @@ int main(int argc, char **argv, char **env)
 
 	while (1)
 	{
+		/*printCurrentWorkingDirectory();*/
 		printf("$ ");
 		if (getline(&input, &input_len, stdin) == -1)
 			break;
-		if (_strcmp(input, "exit") == 0)
-		{
-			printf("Disconnected...");
-			break;
-		}
-		if (_strcmp(input, "clear") == 0)
-		{
-			system("clear");
-			continue;
-		}
-
 		command = splitString(input, &numStrings);
 		if (command[0] == NULL)
-		{
 			continue;
-		}
-		
-		if (_strcmp(command[0], "mkdir") == 0)
-		{
-			if (mkdir(command[1], 0755) == -1)
-			{
-				perror("Error creating directory");
-				return 1;
-			}
+
+		int result = executedcommand(command);
+		if (result == 0)
 			continue;
-		}
-		if (_strcmp(command[0], "cd") == 0)
-		{
-			if (chdir(command[1]) == -1)
-			{
-				perror("Error changing directory");
-				return 1;
-			}
+		else if (result == 1)
 			continue;
-		}
 
 		child = fork();
 		if (child < 0)
@@ -74,7 +48,6 @@ int main(int argc, char **argv, char **env)
 			{
 				perror(argv[0]);
 				freeArray(command, numStrings);
-
 				exit(0);
 			}
 		}
@@ -84,7 +57,133 @@ int main(int argc, char **argv, char **env)
 			freeArray(command, numStrings);
 		}
 	}
-
 	free(input);
 	return 0;
+}
+
+int executedcommand(char **command)
+{
+	if (strcmp(command[0], "exit") == 0)
+	{
+		_print_str("Disconnected...\n");
+		exit(0);
+	}
+
+	if (strcmp(command[0], "clear") == 0)
+	{
+		_print_str("\033[H\033[J");
+		return 1;
+	}
+
+	if (strcmp(command[0], "mkdir") == 0)
+	{
+		if (mkdir(command[1], 0777) == -1)
+		{
+			perror("mkdir");
+			return 1;
+		}
+		return 0;
+	}
+
+	if (strcmp(command[0], "cd") == 0)
+	{
+		if (command[1] == NULL)
+		{
+			perror("cd: missing argument\n");
+			return 1;
+		}
+
+		if (!changeDirectory(command[1]))
+		{
+			perror("chdir");
+			return 1;
+		}
+
+		return 1;
+	}
+
+	return excecuteoneCmd(command);
+}
+
+void printCurrentWorkingDirectory()
+{
+	char *buf;
+	size_t size;
+
+	size = pathconf(".", _PC_PATH_MAX);
+
+	if ((buf = (char *)malloc((size_t)size)) != NULL)
+	{
+		if (getcwd(buf, (size_t)size) != NULL)
+		{
+			_print_str(buf);
+		}
+		else
+		{
+			perror("getcwd");
+		}
+		free(buf);
+	}
+	else
+	{
+		perror("malloc");
+	}
+}
+
+int changeDirectory(const char *path)
+{
+	if (path == NULL)
+	{
+		perror("chdir: missing path\n");
+		return 0;
+	}
+
+	if (chdir(path) == 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void _print_str(char *str)
+{
+	int i = 0;
+	while (str[i] != '\0')
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+}
+
+int excecuteoneCmd(char **command)
+{
+
+	pid_t child = fork();
+	if (child < 0)
+	{
+		perror("fork");
+		return 0;
+	}
+	else if (child == 0)
+	{
+
+		char *lsArgs[] = {str_concat("/bin/", command[0]), command[1], NULL};
+		char *lsEnv[] = {NULL};
+
+		execve(str_concat("/bin/", command[0]), lsArgs, lsEnv);
+		perror("execve");
+		exit(1);
+	}
+	else
+	{
+
+		int status;
+		waitpid(child, &status, 0);
+		return 1;
+	}
+
+	return 2;
 }
