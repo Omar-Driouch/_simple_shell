@@ -1,25 +1,26 @@
 #include "shell.h"
 
 /**
- * _strSplit - Splits a string into an array of tokens based on whitespace.
+ * splitString - Splits a string into an array of tokens based on whitespace.
  *
- * @cmd: The input string to be split.
+ * @input: The input string to be split.
  * @numStrings: A pointer to store the number of strings in the result array.
  *
  * Return: A dynamically allocated array of strings (tokens).
  *         The last element of the array is set to NULL.
  *         Returns NULL if memory allocation fails or if cmd is NULL.
  */
-char **splitString(char *input, int *numStrings)
+ char **splitString(char *input, int *numStrings)
 {
 	const char *delimiters = " \t\n";
 	char *token;
 	char **result = NULL;
 	char *copy = _strdup(input);
+
 	if (!copy)
 	{
 		*numStrings = 0;
-		return NULL;
+		return (NULL);
 	}
 
 	*numStrings = 0;
@@ -36,8 +37,11 @@ char **splitString(char *input, int *numStrings)
 	result[(*numStrings)] = NULL;
 
 	free(copy);
-	return result;
+	return (result);
 }
+ 
+
+
 
 /**
  * freeArray - Frees the memory allocated for an array of strings.
@@ -51,6 +55,7 @@ char **splitString(char *input, int *numStrings)
 void freeArray(char **ptr, int numStrings)
 {
 	int i;
+
 	if (ptr == NULL)
 	{
 		return;
@@ -58,13 +63,17 @@ void freeArray(char **ptr, int numStrings)
 
 	for (i = 0; i < numStrings; i++)
 	{
-		free(ptr[i]);
+		if (ptr[i]!=NULL)
+		{
+			free(ptr[i]);
+		}
+		
 	}
 	free(ptr);
 }
 
 /**
- * __strdup - Duplicates a string.
+ * _strdup - Duplicates a string.
  * @str: Pointer to the original string.
  *
  * Return: A pointer to the duplicated string.
@@ -88,8 +97,6 @@ char *_strdup(char *str)
 	return (A);
 }
 
-
-
 /**
  * _strcmp - Compares two strings.
  * @s1: Pointer to the first string.
@@ -110,8 +117,6 @@ int _strcmp(char *s1, char *s2)
 	}
 	return (rest);
 }
-
-
 
 /**
  * str_concat - concatenates two strings.
