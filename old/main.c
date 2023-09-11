@@ -38,22 +38,11 @@ int main(int argc, char **argv, char **env)
 			continue;
 		else if (result == 1)
 			continue;
-		child = fork();
-		if (child < 0)
-			exit(1);
-		if (child == 0 && command[0] != NULL && command != NULL)
-		{
-			/* if (execve(command[0], command, env) == -1)
-			{
-				freeArray(command, numStrings);
-				exit(0);
-			} */
-		}
-		else
-		{
-			waitpid(child, &status, 0);
-			freeArray(command, numStrings);
-		}
+		
+		
+		
+		freeArray(command, numStrings);
+		
 	}
 	free(input);
 	return (0);
