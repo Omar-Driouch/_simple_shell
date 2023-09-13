@@ -20,12 +20,12 @@ char *str_concat(char *s1, char *s2);
 void freeArray(char **ptr, int numstrs);
 char **tokenizer(char **line, int *tokens);
 
-int executecommand(char **cmd, char **argv, char **envi, int num, int *l);
+int executecommand(char **cmd, char **ar, char **en, int *tokns, int *l);
 int isWhitespaceString(char *str);
 int processLine(int status, char **line);
 int _isspace(char ch);
 
-int executCMD(char **command, char **argv, char **environ, int tokens);
+int executCMD(char **command, char **argv, char **env, int **tokens);
 
 void printCurrentWorkingDirectory(void);
 int changeDirectory(char *path);
@@ -38,7 +38,11 @@ void path(void);
 
 void exit_(char **cmd, int l);
 
-char *HandleSemi(char *str);
+
 void HndleErrorCmdNotfound(char **arg, char **cmd);
 char *removeBin(char *input);
+int pathExists(char *path);
+
+char *_strcpy(char *dest, char *src);
+
 #endif

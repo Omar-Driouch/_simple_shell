@@ -11,12 +11,13 @@ int _strlen(char *s)
 	return (i);
 }
 
+
 int hasSubstring(char *str)
 {
 	char *substring = "/bin/";
 	int str_length = _strlen(str);
 	int sub_length = _strlen(substring), i, j, found;
-
+	
 	for (i = 0; i <= str_length - sub_length; i++)
 	{
 		found = 1;
@@ -33,6 +34,9 @@ int hasSubstring(char *str)
 			return (1);
 		}
 	}
+
+
+
 
 	return (0);
 }
@@ -87,7 +91,7 @@ void exit_(char **cmd, int l)
 	}
 }
 
-int executecommand(char **cmd, char **ar, char **env, int tok, int *l)
+int executecommand(char **cmd, char **ar, char **env, int *tok, int *l)
 {
 
 	if (strcmp(cmd[0], "exit") == 0)
@@ -115,7 +119,8 @@ int executecommand(char **cmd, char **ar, char **env, int tok, int *l)
 			perror(ar[0]);
 		return (1);
 	}
-	return (executCMD(cmd, ar, env, tok));
+	
+	return (executCMD(cmd, ar, env, &tok));
 }
 
 

@@ -20,6 +20,8 @@ int read_line(char **line)
 	if (n > 0 && (*line)[n - 1] == '\n')
 		(*line)[n - 1] = '\0';
 
+
+
 	return (isWhitespaceString(*line));
 }
 
@@ -34,7 +36,7 @@ char **tokenizer(char **line, int *tokens)
 		*tokens = 0;
 		return (NULL);
 	}
-	temp = strdup(*line);
+	temp = _strdup(*line);
 	if (!temp)
 	{
 		*tokens = 0;
@@ -109,42 +111,52 @@ char *removeBin(char *input)
 void HndleErrorCmdNotfound(char **arg, char **cmd)
 {
 	char error_message[] = ": not found";
+	char *error = removeBin(cmd[0]);
 	write(STDERR_FILENO, arg[0], _strlen(arg[0]));
 	write(STDERR_FILENO, ": 1: ", 5);
-	write(STDERR_FILENO, removeBin(cmd[0]), _strlen(removeBin(cmd[0])));
+	write(STDERR_FILENO, error, _strlen(error));
 	write(STDERR_FILENO, error_message, _strlen(error_message));
 	write(STDERR_FILENO, "\n", 1);
-	 
 }
 
-int executCMD(char **command, char **argv, char **envi, int numstr)
+int executCMD(char **command, char **argv, char **envi, int **numstr)
 {
 	pid_t child = -1;
 	int status = 0;
 
-	(void)numstr;
 	(void)argv;
-	child = fork();
-	if (child == 0 && command[0] != NULL)
-	{
-		if (hasSubstring(command[0]) == 0)
-		{
-			command[0] = str_concat("/bin/", command[0]);
-		}
 
-		if (execve(command[0], command, envi) == -1)
+	 if (hasSubstring(command[0]) == 0)
+	{
+		command[0] = str_concat("/bin/", command[0]);
+		
+	} 
+	
+	if (pathExists(command[0]))
+	{
+		child = fork();
+
+		if (child == 0 && command[0] != NULL)
 		{
-			HndleErrorCmdNotfound(argv, command);
-			
-			return (-2);
+			if (execve(command[0], command, envi) == -1)
+			{
+				free_2d_array(command);
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
 	else
 	{
-		waitpid(child, &status, 0);
-		free_2d_array(command);
+		HndleErrorCmdNotfound(argv, command);
+		**numstr = -1;
+		return (-2);
 	}
 
+	if (child != 0)
+	{
+		waitpid(child, &status, 0);
+	}
+	free_2d_array(command);
 	return (WEXITSTATUS(status));
 }
 
@@ -177,4 +189,19 @@ int processLine(int status, char **line)
 		return (0);
 	}
 	return (1);
+}
+
+int pathExists(char *path)
+{
+
+	if (access(path, F_OK) == 0)
+	{
+
+		return 1;
+	}
+	else
+	{
+
+		return 0;
+	}
 }
