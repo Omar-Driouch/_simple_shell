@@ -40,13 +40,16 @@ char **tokenizer(char **line, int *tokens)
 		*tokens = 0;
 		return (NULL);
 	}
-	token = strtok(temp, " \t\n&&;");
+	token = strtok(temp, " \t\n");
 	while (token)
 	{
-		if (strcmp(token, "#") == 0)
+		if (_strcmp(token, "#") == 0 && cpt != 0)
+		{
 			break;
+		}
+		
 		cpt++;
-		token = strtok(NULL, " \t\n&&;||");
+		token = strtok(NULL, " \t\n");
 	}
 	*tokens = cpt;
 	commands = (char **)malloc(sizeof(char *) * (cpt + 1));
@@ -55,13 +58,15 @@ char **tokenizer(char **line, int *tokens)
 		free(temp);
 		return (NULL);
 	}
-	token = strtok(*line, " \t\n&&;||");
+	token = strtok(*line, " \t\n");
 	while (token)
 	{
-		if (strcmp(token, "#") == 0)
+		if (_strcmp(token, "#") == 0 && i != 0)
+		{
 			break;
+		}
 		commands[i] = _strdup(token);
-		token = strtok(NULL, " \t\n&&;||");
+		token = strtok(NULL, " \t\n");
 		i++;
 	}
 	free(temp);

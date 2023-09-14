@@ -91,7 +91,7 @@ void exit_(char **cmd, int l)
 	}
 }
 
-int executecommand(char **cmd, char **ar, char **env, int *tok, int *l)
+int executecmd(char **cmd, char **ar, char **env, int *tok, int *l,int *ex)
 {
 
 	int cd = -2;
@@ -108,7 +108,7 @@ int executecommand(char **cmd, char **ar, char **env, int *tok, int *l)
 	{
 		if (mkdir(cmd[1], 0777) == -1)
 			perror(cmd[0]);
-		 
+		cd = 1; 
 	}
 	if (_strcmp(cmd[0], "cd") == 0)
 	{
@@ -117,9 +117,7 @@ int executecommand(char **cmd, char **ar, char **env, int *tok, int *l)
 		 else if (_strcmp(cmd[1], "-") == 0)
 		 {
 			
-			 
 			changeDirectory(newpathh());
-			 
 			cd = -1; 
 		 }
 		else if (changeDirectory(cmd[1]))
@@ -131,6 +129,15 @@ int executecommand(char **cmd, char **ar, char **env, int *tok, int *l)
 		 
 	}
 	
+	
+
+		cd = handle_commanets(cmd,&ex);
+		
+
+
+
+
+
 	return (executCMD(cmd, ar, env, &tok,cd));
 }
 

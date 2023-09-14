@@ -1,15 +1,25 @@
 #include "shel.h"
+#include <signal.h>
 
-
-
+void sigint_handler()
+{
+	if (isatty(STDIN_FILENO))
+		write(STDOUT_FILENO, "\n$ ", 3);
+}
 
 int main(int ac, char **argv)
 {
 	char *line = NULL;
 	char **command = NULL;
 	int status = 0, tokens = 0;
-	int l = 1;
-	 
+	int l = 1, exi = 127;
+
+	if (signal(SIGINT, sigint_handler) == SIG_ERR)
+	{
+
+		return 1;
+	}
+
 	(void)ac;
 	while (l)
 	{
@@ -19,7 +29,7 @@ int main(int ac, char **argv)
 		if (!line)
 		{
 			if (tokens == -1)
-				exit(127);
+				exit(exi);
 			exit(status);
 		}
 		if (!processLine(status, &line))
@@ -30,10 +40,10 @@ int main(int ac, char **argv)
 			free_2d_array(command);
 			continue;
 		}
-		status = executecommand(command, argv, environ, &tokens, &l);
+		status = executecmd(command, argv, environ, &tokens, &l, &exi);
 		if (status == 1)
 		{
-		 
+
 			free_2d_array(command);
 			continue;
 		}
@@ -42,9 +52,6 @@ int main(int ac, char **argv)
 			free_2d_array(command);
 			continue;
 		}
-		 
-		 
-		
 	}
 
 	exit(0);

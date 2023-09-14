@@ -20,7 +20,7 @@ char *str_concat(char *s1, char *s2);
 void freeArray(char **ptr, int numstrs);
 char **tokenizer(char **line, int *tokens);
 
-int executecommand(char **cmd, char **ar, char **en, int *tokns, int *l);
+int executecmd(char **cmd, char **ar, char **en, int *tokns, int *l,int *ex);
 int isWhitespaceString(char *str);
 int processLine(int status, char **line);
 int _isspace(char ch);
@@ -45,5 +45,6 @@ int pathExists(char *path);
 
 char *_strcpy(char *dest, char *src);
 void handleError_cd_(char **argv, char **cmd);
+int handle_commanets(char **cmd, int **l);
 
 #endif
