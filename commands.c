@@ -26,7 +26,7 @@ int read_line(char **line)
 int tokenizer(char **line, int *tokens, char **commands, char **argv, char **env, int *l, int *exi, int *status)
 {
 	char *token = NULL, *temp = NULL;
-	 
+
 	int cpt = 0, i = 0;
 
 	if (!*line || !*line[0] || _strcmp(*line, "\n") == 0)
@@ -47,7 +47,7 @@ int tokenizer(char **line, int *tokens, char **commands, char **argv, char **env
 		{
 			break;
 		}
-		
+
 		cpt++;
 		token = strtok(NULL, " \t\n");
 	}
@@ -77,7 +77,7 @@ int tokenizer(char **line, int *tokens, char **commands, char **argv, char **env
 	free(*line);
 	*line = NULL;
 	commands[i] = NULL;
-	*status =   executecmd(commands, argv, env, tokens, l, exi); 
+	*status = executecmd(commands, argv, env, tokens, l, exi);
 	return (*status);
 }
 
@@ -86,7 +86,7 @@ char *removeBin(char *input)
 	char *start = input;
 	char substring[] = "/bin/";
 	char *source = input;
-	int match = 0;
+	size_t match = 0;
 
 	while (*source)
 	{
@@ -96,19 +96,23 @@ char *removeBin(char *input)
 			source++;
 			if (substring[match] == '\0')
 			{
-				match = 0;
+				break;
 			}
 		}
 		else
 		{
-			*start = *source;
-			start++;
-			source++;
-			match = 0;
+			break;
 		}
 	}
 
-	*start = '\0';
+	if (match == strlen(substring))
+	{
+		while (*source)
+		{
+			*start++ = *source++;
+		}
+		*start = '\0';
+	}
 
 	if (*input)
 	{
@@ -141,15 +145,22 @@ int executCMD(char **command, char **argv, char **envi, int **numstr, int cd)
 	if (cd == -1 || cd == 1 || cd == 0)
 	{
 		if (cd == 0)
-			handleError_cd_(argv,command); 
+			handleError_cd_(argv, command);
 		**numstr = -1;
 		free_2d_array(command);
 		return (-2);
 	}
-	
+
 	if (hasSubstring(command[0]) == 0)
 	{
+
 		command[0] = str_concat("/bin/", command[0]);
+
+		if (!pathExists((command[0])))
+		{
+
+			command[0] = removeBin(command[0]);
+		}
 	}
 
 	if (pathExists(command[0]))
@@ -178,6 +189,7 @@ int executCMD(char **command, char **argv, char **envi, int **numstr, int cd)
 		waitpid(child, &status, 0);
 	}
 	free_2d_array(command);
+
 	return (WEXITSTATUS(status));
 }
 
@@ -237,5 +249,4 @@ void handleError_cd_(char **argv, char **cmd)
 	write(STDERR_FILENO, error_message, _strlen(error_message));
 	write(STDERR_FILENO, cmd[1], _strlen(cmd[1]));
 	write(STDERR_FILENO, "\n", 1);
-
 }
