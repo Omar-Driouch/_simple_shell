@@ -23,63 +23,7 @@ int read_line(char **line)
 	return (isWhitespaceString(*line));
 }
 
-int tokenizer(char **line, int *tokens, char **commands, char **argv, char **env, int *l, int *exi, int *status)
-{
-	char *token = NULL, *temp = NULL;
 
-	int cpt = 0, i = 0;
-
-	if (!*line || !*line[0] || _strcmp(*line, "\n") == 0)
-	{
-		*tokens = 0;
-		return (0);
-	}
-	temp = _strdup(*line);
-	if (!temp)
-	{
-		*tokens = 0;
-		return (0);
-	}
-	token = strtok(temp, " \t\n");
-	while (token)
-	{
-		if (_strcmp(token, "#") == 0 && cpt != 0)
-		{
-			break;
-		}
-
-		cpt++;
-		token = strtok(NULL, " \t\n");
-	}
-	*tokens = cpt;
-	commands = (char **)malloc(sizeof(char *) * (cpt + 1));
-	if (!commands)
-	{
-		free(temp);
-		return (0);
-	}
-	token = strtok(*line, " \t\n");
-	while (token)
-	{
-		if (_strcmp(token, "#") == 0 && i != 0)
-		{
-			break;
-		}
-		if (_strcmp(token, ";") == 0 && i != 0)
-		{
-			return 0;
-		}
-		commands[i] = _strdup(token);
-		token = strtok(NULL, " \t\n");
-		i++;
-	}
-	free(temp);
-	free(*line);
-	*line = NULL;
-	commands[i] = NULL;
-	*status = executecmd(commands, argv, env, tokens, l, exi);
-	return (*status);
-}
 
 char *removeBin(char *input)
 {
@@ -158,7 +102,6 @@ int executCMD(char **command, char **argv, char **envi, int **numstr, int cd)
 
 		if (!pathExists((command[0])))
 		{
-
 			command[0] = removeBin(command[0]);
 		}
 	}
