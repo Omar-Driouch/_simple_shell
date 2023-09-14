@@ -13,6 +13,7 @@ int main(int ac, char **argv)
 	char **command = NULL;
 	int status = 0, tokens = 0;
 	int l = 1, exi = 127;
+	 
 
 	if (signal(SIGINT, sigint_handler) == SIG_ERR)
 	{
@@ -34,24 +35,21 @@ int main(int ac, char **argv)
 		}
 		if (!processLine(status, &line))
 			continue;
-		command = tokenizer(&line, &tokens);
+		status = tokenizer(&line, &tokens, command, argv, environ, &l, &exi, &status);
+		 
 		if (!command && line == NULL)
 		{
 			free_2d_array(command);
 			continue;
 		}
-		status = executecmd(command, argv, environ, &tokens, &l, &exi);
+		 
 		if (status == 1)
 		{
+			free_2d_array(command);
+			continue;
+		}
+		 
 
-			free_2d_array(command);
-			continue;
-		}
-		if (status == -2)
-		{
-			free_2d_array(command);
-			continue;
-		}
 	}
 
 	exit(0);

@@ -23,22 +23,22 @@ int read_line(char **line)
 	return (isWhitespaceString(*line));
 }
 
-char **tokenizer(char **line, int *tokens)
+int tokenizer(char **line, int *tokens, char **commands, char **argv, char **env, int *l, int *exi, int *status)
 {
 	char *token = NULL, *temp = NULL;
-	char **commands = NULL;
+	 
 	int cpt = 0, i = 0;
 
 	if (!*line || !*line[0] || _strcmp(*line, "\n") == 0)
 	{
 		*tokens = 0;
-		return (NULL);
+		return (0);
 	}
 	temp = _strdup(*line);
 	if (!temp)
 	{
 		*tokens = 0;
-		return (NULL);
+		return (0);
 	}
 	token = strtok(temp, " \t\n");
 	while (token)
@@ -56,7 +56,7 @@ char **tokenizer(char **line, int *tokens)
 	if (!commands)
 	{
 		free(temp);
-		return (NULL);
+		return (0);
 	}
 	token = strtok(*line, " \t\n");
 	while (token)
@@ -64,6 +64,10 @@ char **tokenizer(char **line, int *tokens)
 		if (_strcmp(token, "#") == 0 && i != 0)
 		{
 			break;
+		}
+		if (_strcmp(token, ";") == 0 && i != 0)
+		{
+			return 0;
 		}
 		commands[i] = _strdup(token);
 		token = strtok(NULL, " \t\n");
@@ -73,7 +77,8 @@ char **tokenizer(char **line, int *tokens)
 	free(*line);
 	*line = NULL;
 	commands[i] = NULL;
-	return (commands);
+	*status =   executecmd(commands, argv, env, tokens, l, exi); 
+	return (*status);
 }
 
 char *removeBin(char *input)
@@ -138,6 +143,7 @@ int executCMD(char **command, char **argv, char **envi, int **numstr, int cd)
 		if (cd == 0)
 			handleError_cd_(argv,command); 
 		**numstr = -1;
+		free_2d_array(command);
 		return (-2);
 	}
 	
@@ -163,7 +169,8 @@ int executCMD(char **command, char **argv, char **envi, int **numstr, int cd)
 	{
 		HndleErrorCmdNotfound(argv, command);
 		**numstr = -1;
-		return (-2);
+		free_2d_array(command);
+		return (0);
 	}
 
 	if (child != 0)
@@ -219,8 +226,6 @@ int pathExists(char *path)
 		return 0;
 	}
 }
-
-
 
 void handleError_cd_(char **argv, char **cmd)
 {

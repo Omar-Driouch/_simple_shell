@@ -18,7 +18,7 @@ char *_strdup(char *str);
 int _strcmp(char *s1, char *s2);
 char *str_concat(char *s1, char *s2);
 void freeArray(char **ptr, int numstrs);
-char **tokenizer(char **line, int *tokens);
+int tokenizer(char **line, int *tokens, char **cmd, char **argv, char ** env, int *l, int *exi, int *status);
 
 int executecmd(char **cmd, char **ar, char **en, int *tokns, int *l,int *ex);
 int isWhitespaceString(char *str);
