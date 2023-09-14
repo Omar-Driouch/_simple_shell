@@ -94,33 +94,44 @@ void exit_(char **cmd, int l)
 int executecommand(char **cmd, char **ar, char **env, int *tok, int *l)
 {
 
-	if (strcmp(cmd[0], "exit") == 0)
+	int cd = -2;
+	if (_strcmp(cmd[0], "exit") == 0)
 	{
 		exit_(cmd, *l);
 		return (1);
 	}
-	if (strcmp(cmd[0], "clear") == 0)
+	if (_strcmp(cmd[0], "clear") == 0)
 	{
 		_print_str("\033[H\033[J");
 	}
-	if (strcmp(cmd[0], "mkdir") == 0)
+	if (_strcmp(cmd[0], "mkdir") == 0)
 	{
 		if (mkdir(cmd[1], 0777) == -1)
 			perror(cmd[0]);
-		return (1);
+		 
 	}
-	if (strcmp(cmd[0], "cd") == 0)
+	if (_strcmp(cmd[0], "cd") == 0)
 	{
 		if (cmd[1] == NULL)
-			_print_str("cd: missing argument\n");
-		if (_strcmp(cmd[1], "-") == 0)
-			path();
-		if (!changeDirectory(cmd[1]))
-			perror(ar[0]);
-		return (1);
+			cd = -1; 
+		 else if (_strcmp(cmd[1], "-") == 0)
+		 {
+			
+			 
+			changeDirectory(newpathh());
+			 
+			cd = -1; 
+		 }
+		else if (changeDirectory(cmd[1]))
+			cd = 1; 
+		else if (!changeDirectory(cmd[1]))
+			cd = 0; 
+		
+		
+		 
 	}
 	
-	return (executCMD(cmd, ar, env, &tok));
+	return (executCMD(cmd, ar, env, &tok,cd));
 }
 
 

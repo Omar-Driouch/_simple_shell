@@ -9,6 +9,7 @@ int main(int ac, char **argv)
 	char **command = NULL;
 	int status = 0, tokens = 0;
 	int l = 1;
+	 
 	(void)ac;
 	while (l)
 	{
@@ -32,6 +33,7 @@ int main(int ac, char **argv)
 		status = executecommand(command, argv, environ, &tokens, &l);
 		if (status == 1)
 		{
+		 
 			free_2d_array(command);
 			continue;
 		}
@@ -40,6 +42,9 @@ int main(int ac, char **argv)
 			free_2d_array(command);
 			continue;
 		}
+		 
+		 
+		
 	}
 
 	exit(0);

@@ -25,7 +25,7 @@ int isWhitespaceString(char *str);
 int processLine(int status, char **line);
 int _isspace(char ch);
 
-int executCMD(char **command, char **argv, char **env, int **tokens);
+int executCMD(char **command, char **argv, char **env, int **tokens, int cd);
 
 void printCurrentWorkingDirectory(void);
 int changeDirectory(char *path);
@@ -34,7 +34,7 @@ int hasSubstring(char *str);
 int _strlen(char *s);
 void handleCommandNotFound(char *command);
 void free_2d_array(char **array);
-void path(void);
+char * newpathh(void);
 
 void exit_(char **cmd, int l);
 
@@ -44,5 +44,6 @@ char *removeBin(char *input);
 int pathExists(char *path);
 
 char *_strcpy(char *dest, char *src);
+void handleError_cd_(char **argv, char **cmd);
 
 #endif

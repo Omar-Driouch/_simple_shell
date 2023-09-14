@@ -1,8 +1,8 @@
 #include "shel.h"
 
-void path(void)
+char *newpathh(void)
 {
-	char *buf;
+	char *buf = NULL;
 	size_t size;
 
 	size = pathconf(".", _PC_PATH_MAX);
@@ -11,42 +11,42 @@ void path(void)
 	{
 		if (getcwd(buf, (size_t)size) != NULL)
 		{
-			_print_str(buf);
-			_print_str("\n");
+			/* _print_str(buf);
+			_print_str("\n"); */
 		}
 		else
 		{
 			perror("getcwd");
 		}
-		free(buf);
+		return (buf);
 	}
 	else
 	{
 		perror("malloc");
 	}
+	return (buf);
 }
 
 int changeDirectory(char *path)
 {
+
+	
 	if (path == NULL)
 	{
-		_print_str("chdir: missing path\n");
 		return (0);
 	}
-
+	
 	if (chdir(path) == 0)
 	{
 		return (1);
 	}
 	else
 	{
+		 
 		return (0);
 	}
-	free(path);
+	/* free(path); */
 }
-
-
-
 
 void free_2d_array(char **array)
 {

@@ -20,8 +20,6 @@ int read_line(char **line)
 	if (n > 0 && (*line)[n - 1] == '\n')
 		(*line)[n - 1] = '\0';
 
-
-
 	return (isWhitespaceString(*line));
 }
 
@@ -45,6 +43,8 @@ char **tokenizer(char **line, int *tokens)
 	token = strtok(temp, " \t\n&&;");
 	while (token)
 	{
+		if (strcmp(token, "#") == 0)
+			break;
 		cpt++;
 		token = strtok(NULL, " \t\n&&;||");
 	}
@@ -58,6 +58,8 @@ char **tokenizer(char **line, int *tokens)
 	token = strtok(*line, " \t\n&&;||");
 	while (token)
 	{
+		if (strcmp(token, "#") == 0)
+			break;
 		commands[i] = _strdup(token);
 		token = strtok(NULL, " \t\n&&;||");
 		i++;
@@ -119,19 +121,26 @@ void HndleErrorCmdNotfound(char **arg, char **cmd)
 	write(STDERR_FILENO, "\n", 1);
 }
 
-int executCMD(char **command, char **argv, char **envi, int **numstr)
+int executCMD(char **command, char **argv, char **envi, int **numstr, int cd)
 {
 	pid_t child = -1;
 	int status = 0;
 
 	(void)argv;
 
-	 if (hasSubstring(command[0]) == 0)
+	if (cd == -1 || cd == 1 || cd == 0)
+	{
+		if (cd == 0)
+			handleError_cd_(argv,command); 
+		**numstr = -1;
+		return (-2);
+	}
+	
+	if (hasSubstring(command[0]) == 0)
 	{
 		command[0] = str_concat("/bin/", command[0]);
-		
-	} 
-	
+	}
+
 	if (pathExists(command[0]))
 	{
 		child = fork();
@@ -204,4 +213,19 @@ int pathExists(char *path)
 
 		return 0;
 	}
+}
+
+
+
+void handleError_cd_(char **argv, char **cmd)
+{
+	char error_message[] = ": can't cd to ";
+	char *error = cmd[0];
+	write(STDERR_FILENO, argv[0], _strlen(argv[0]));
+	write(STDERR_FILENO, ": 1: ", 5);
+	write(STDERR_FILENO, error, _strlen(error));
+	write(STDERR_FILENO, error_message, _strlen(error_message));
+	write(STDERR_FILENO, cmd[1], _strlen(cmd[1]));
+	write(STDERR_FILENO, "\n", 1);
+
 }
