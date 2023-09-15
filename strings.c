@@ -1,4 +1,4 @@
-#include "shel.h"
+#include "shell.h"
 
 /**
  * freeArray - Frees the memory allocated for an array of strings.
@@ -132,5 +132,54 @@ char *_strcpy(char *dest, char *src)
 	return (dest);
 }
 
+void _print_str(char *str)
+{
+	int i = 0;
+
+	while (str[i] != '\0')
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+}
+
+int hasSubstring(char *str)
+{
+	char *substring = "/bin/";
+	int str_length = _strlen(str);
+	int sub_length = _strlen(substring), i, j, found;
+	
+	for (i = 0; i <= str_length - sub_length; i++)
+	{
+		found = 1;
+		for (j = 0; j < sub_length; j++)
+		{
+			if (str[i + j] != substring[j])
+			{
+				found = 0;
+				break;
+			}
+		}
+		if (found)
+		{
+			return (1);
+		}
+	}
 
 
+
+
+	return (0);
+}
+
+
+int _strlen(char *s)
+{
+	int i = 0;
+
+	while (s[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
+}

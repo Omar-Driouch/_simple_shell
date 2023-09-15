@@ -1,4 +1,4 @@
-#include "shel.h"
+#include "shell.h"
 
 char *newpathh(void)
 {
@@ -45,7 +45,7 @@ int changeDirectory(char *path)
 		 
 		return (0);
 	}
-	/* free(path); */
+	
 }
 
 void free_2d_array(char **array)

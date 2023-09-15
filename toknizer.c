@@ -1,4 +1,4 @@
-#include "shel.h"
+#include "shell.h"
 
 int tokenizer(char **line, int *tokens, char **commands,
 			  char **argv, char **env, int *l, int *exi, int *status)
@@ -17,13 +17,13 @@ int tokenizer(char **line, int *tokens, char **commands,
 		*tokens = 0;
 		return (0);
 	}
-	token = strtok(temp, " \t\n");
+	token = strtok(temp, " \t\n\r\a");
 	while (token)
 	{
 		if (_strcmp(token, "#") == 0 && cpt != 0)
 			break;
 		cpt++;
-		token = strtok(NULL, " \t\n");
+		token = strtok(NULL, " \t\n\r\a");
 	}
 	*tokens = cpt;
 	commands = (char **)malloc(sizeof(char *) * (cpt + 1));
@@ -32,7 +32,7 @@ int tokenizer(char **line, int *tokens, char **commands,
 		free(temp);
 		return (0);
 	}
-	token = strtok(*line, " \t\n");
+	token = strtok(*line, " \t\n\r\a");
 	while (token)
 	{
 		if (_strcmp(token, "#") == 0 && i != 0)
@@ -40,7 +40,7 @@ int tokenizer(char **line, int *tokens, char **commands,
 		if (_strcmp(token, ";") == 0 && i != 0)
 			return 0;
 		commands[i] = _strdup(token);
-		token = strtok(NULL, " \t\n");
+		token = strtok(NULL, " \t\n\r\a");
 		i++;
 	}
 	free(temp),free(*line);

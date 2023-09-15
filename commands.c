@@ -1,4 +1,4 @@
-#include "shel.h"
+#include "shell.h"
 
 int read_line(char **line)
 {
@@ -97,15 +97,17 @@ int executCMD(char **command, char **argv, char **envi, int **numstr, int cd)
 
 	if (hasSubstring(command[0]) == 0)
 	{
-
+		
 		command[0] = str_concat("/bin/", command[0]);
 
 		if (!pathExists((command[0])))
 		{
+		
 			command[0] = removeBin(command[0]);
 		}
+			
 	}
-
+	
 	if (pathExists(command[0]))
 	{
 		child = fork();
@@ -121,6 +123,7 @@ int executCMD(char **command, char **argv, char **envi, int **numstr, int cd)
 	}
 	else
 	{
+		
 		HndleErrorCmdNotfound(argv, command);
 		**numstr = -1;
 		free_2d_array(command);

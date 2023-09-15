@@ -1,4 +1,4 @@
-#include "shel.h"
+#include "shell.h"
 
 int handle_commanets(char **cmd, int **ex)
 {

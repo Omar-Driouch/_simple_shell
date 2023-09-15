@@ -10,6 +10,8 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <ctype.h>
+#include <signal.h>
+#include <dirent.h>
 
 extern char **environ;
 
@@ -32,7 +34,7 @@ int changeDirectory(char *path);
 void _print_str(char *str);
 int hasSubstring(char *str);
 int _strlen(char *s);
-void handleCommandNotFound(char *command);
+/* void handleCommandNotFound(char *command); */
 void free_2d_array(char **array);
 char * newpathh(void);
 
@@ -46,5 +48,6 @@ int pathExists(char *path);
 char *_strcpy(char *dest, char *src);
 void handleError_cd_(char **argv, char **cmd);
 int handle_commanets(char **cmd, int **l);
+char *get_Home_Dir(void);
 
 #endif

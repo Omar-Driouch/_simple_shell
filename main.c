@@ -1,5 +1,5 @@
-#include "shel.h"
-#include <signal.h>
+#include "shell.h"
+
 
 void sigint_handler()
 {
