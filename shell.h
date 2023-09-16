@@ -50,4 +50,12 @@ void handleError_cd_(char **argv, char **cmd);
 int handle_commanets(char **cmd, int **l);
 char *get_Home_Dir(void);
 
+int cd_command(int tokens, char **command);
+char *my_getenv(const char *name);
+void setenvir(void);
+int set_variable_env(char *name, char *new_value);
+char *_concat_whitout_free(char *s1, char *s2);
+int _strncmp(char *str1,char *str2, size_t n);
+void concat(char *s1, char *s2, char **env);
+
 #endif

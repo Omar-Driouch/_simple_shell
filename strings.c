@@ -13,7 +13,7 @@ void freeArray(char **ptr, int numstrs)
 {
 	int i;
 
-	if (ptr == NULL || ptr[0] ==  NULL)
+	if (ptr == NULL || ptr[0] == NULL)
 		return;
 
 	for (i = 0; i < numstrs; i++)
@@ -100,17 +100,41 @@ char *str_concat(char *s1, char *s2)
 	return (A);
 }
 
+/* char *_concat_whitout_free(char *s1, char *s2)
+{
+	char *A;
+	unsigned int i, j;
+
+	if (s1 == NULL)
+		s1 = "";
+	if (s2 == NULL)
+		s2 = "";
+
+	A = (char *)malloc(strlen(s1) + strlen(s2) + 1);
+	if (A == NULL)
+		return (NULL);
+
+	for (i = 0; s1[i] != '\0'; i++)
+		A[i] = s1[i];
+
+	for (j = 0; s2[j] != '\0'; j++)
+		A[i++] = s2[j];
+	A[i] = '\0';
+
+	 
+	return (A);
+} */
+
 /**
  * _isspace - checks if the str is all white spaces
  * @ch: str
  * Return: 1 if true else 0
-*/
+ */
 
 int _isspace(char ch)
 {
 	return (ch == ' ' || ch == '\t');
 }
-
 
 /**
  * _strcpy - copies the string pointed to by src into dest
@@ -148,7 +172,7 @@ int hasSubstring(char *str)
 	char *substring = "/bin/";
 	int str_length = _strlen(str);
 	int sub_length = _strlen(substring), i, j, found;
-	
+
 	for (i = 0; i <= str_length - sub_length; i++)
 	{
 		found = 1;
@@ -166,12 +190,8 @@ int hasSubstring(char *str)
 		}
 	}
 
-
-
-
 	return (0);
 }
-
 
 int _strlen(char *s)
 {
@@ -182,4 +202,38 @@ int _strlen(char *s)
 		i++;
 	}
 	return (i);
+}
+
+int _strncmp(char *str1,char *str2, size_t n)
+{
+	unsigned char char1;
+	unsigned char char2;
+
+	while (n > 0 && *str1 && (*str1 == *str2))
+	{
+		str1++;
+		str2++;
+		n--;
+	}
+
+	if (n == 0)
+	{
+		return 0;
+	}
+
+	char1 = *(unsigned char *)str1;
+	char2 = *(unsigned char *)str2;
+
+	if (char1 < char2)
+	{
+		return -1;
+	}
+	else if (char1 > char2)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }

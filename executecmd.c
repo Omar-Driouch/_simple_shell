@@ -22,19 +22,19 @@ int executecmd(char **cmd, char **ar, char **env, int *tok, int *l, int *ex)
 	cd = handle_commanets(cmd, &ex);
 	if (_strcmp(cmd[0], "cd") == 0)
 	{
-		if (cmd[1] == NULL)
-		{
 
+		if (cd_command(*tok,cmd))
+		{
 			cd = -1;
 		}
-		 
-		
-		else if (changeDirectory(cmd[1]))
-			cd = 1;
-		else if (!changeDirectory(cmd[1]))
+		else
+		{
 			cd = 0;
+		}
+	
 	}
 
+	
 	return (executCMD(cmd, ar, env, &tok, cd));
 }
 
