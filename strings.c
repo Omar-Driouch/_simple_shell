@@ -100,30 +100,27 @@ char *str_concat(char *s1, char *s2)
 	return (A);
 }
 
-/* char *_concat_whitout_free(char *s1, char *s2)
+char * _concat_whitout_malloc(char *dest, char *src)
 {
-	char *A;
-	unsigned int i, j;
+	 char *original_dest = dest;  
 
-	if (s1 == NULL)
-		s1 = "";
-	if (s2 == NULL)
-		s2 = "";
+    
+    while (*dest != '\0') {
+        dest++;
+    }
 
-	A = (char *)malloc(strlen(s1) + strlen(s2) + 1);
-	if (A == NULL)
-		return (NULL);
+    
+    while (*src != '\0') {
+        *dest = *src;
+        dest++;
+        src++;
+    }
 
-	for (i = 0; s1[i] != '\0'; i++)
-		A[i] = s1[i];
+     
+    *dest = '\0';
 
-	for (j = 0; s2[j] != '\0'; j++)
-		A[i++] = s2[j];
-	A[i] = '\0';
-
-	 
-	return (A);
-} */
+    return original_dest; 
+}
 
 /**
  * _isspace - checks if the str is all white spaces
@@ -204,7 +201,7 @@ int _strlen(char *s)
 	return (i);
 }
 
-int _strncmp(char *str1,char *str2, size_t n)
+int _strncmp(char *str1, char *str2, size_t n)
 {
 	unsigned char char1;
 	unsigned char char2;

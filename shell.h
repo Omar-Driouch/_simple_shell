@@ -52,10 +52,13 @@ char *get_Home_Dir(void);
 
 int cd_command(int tokens, char **command);
 char *my_getenv(const char *name);
-void setenvir(void);
+ 
 int set_variable_env(char *name, char *new_value);
-char *_concat_whitout_free(char *s1, char *s2);
-int _strncmp(char *str1,char *str2, size_t n);
-void concat(char *s1, char *s2, char **env);
 
+int _strncmp(char *str1,char *str2, size_t n);
+
+
+char * _concat_whitout_malloc(char *s1, char *s2);
+ 
+ int add_OLDPWD_to_env(char *name, char *new_value);
 #endif
