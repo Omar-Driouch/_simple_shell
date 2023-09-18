@@ -60,5 +60,11 @@ int _strncmp(char *str1,char *str2, size_t n);
 
 char * _concat_whitout_malloc(char *s1, char *s2);
  
- int add_OLDPWD_to_env(char *name, char *new_value);
+int add_OLDPWD_to_env(char *name, char *new_value);
+int semicolon_handler(char **cmd, char **ar, char **env, int *tok, int *l, int *ex, char *lin);
+
+ 
+int chech_semicolon(char *source);
+
+
 #endif
