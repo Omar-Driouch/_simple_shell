@@ -14,6 +14,7 @@
 #include <dirent.h>
 
 extern char **environ;
+#define  DELIMITERS " \t\n\r\a;&&"
 
 int read_line(char **line);
 char *_strdup(char *str);

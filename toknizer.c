@@ -12,23 +12,23 @@ int tokenizer(char **line, int *tokens, char **commands,
 		return (0);
 	}
 	temp = _strdup(*line);
-	token = strtok(temp, " \t\n\r\a;");
+	token = strtok(temp, DELIMITERS);
 	while (token)
 	{
-		if (_strcmp(token, "#") == 0 && cpt != 0)
+		if ((_strcmp(token, "#") == 0 && i != 0) || _strcmp(token, "||") == 0)
 			break;
 		cpt++;
-		token = strtok(NULL, " \t\n\r\a;");
+		token = strtok(NULL, DELIMITERS);
 	}
 	*tokens = cpt;
 	commands = (char **)malloc(sizeof(char *) * (cpt + 1));
-	token = strtok(*line, " \t\n\r\a;");
+	token = strtok(*line, DELIMITERS);
 	while (token)
 	{
-		if (_strcmp(token, "#") == 0 && i != 0)
+		if ((_strcmp(token, "#") == 0 && i != 0) || _strcmp(token, "||") == 0)
 			break;
 		commands[i] = _strdup(token);
-		token = strtok(NULL, " \t\n\r\a;");
+		token = strtok(NULL, DELIMITERS);
 		i++;
 	}
 	free(temp), free(*line);

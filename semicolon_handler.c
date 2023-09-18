@@ -4,10 +4,11 @@ int semicolon_handler(char **cmd, char **ar, char **env, int *tok, int *l, int *
 {
 	int result = 0;
 	char **cmdar = NULL;
-	int i;
-
-	(void)lin;
-
+	int i ;
+	
+	
+	 (void)lin;
+	
 	free(lin);
 	for (i = 0; cmd[i]; i++)
 	{
@@ -33,7 +34,7 @@ int chech_semicolon(char *source)
 
 	for (i = 0; source[i] != '\0'; i++)
 	{
-		if (source[i] == ';')
+		if (source[i] == ';' || source[i] == '&' )
 		{
 			return 1;
 		}
