@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * freeArray - Frees the memory allocated for an array of strings.
+ * free_2d_array - Frees the memory allocated for an array of strings.
  *
  * @ptr: The array of strings to be freed.
  * @numstrs: The number of strings in the array.
@@ -9,20 +9,26 @@
  * This function iterates through the array of strings and frees each string,
  * and then frees the array itself. If ptr is NULL, it does nothing.
  */
-void freeArray(char **ptr, int numstrs)
+ 
+void free_2d_array(char **array)
 {
 	int i;
 
-	if (ptr == NULL || ptr[0] == NULL)
-		return;
-
-	for (i = 0; i < numstrs; i++)
+	if (array == NULL)
 	{
-		free(ptr[i]), ptr[i] = NULL;
+		return;
 	}
-	free(ptr), ptr = NULL;
-}
 
+	for (i = 0; array[i]; i++)
+	{
+		if (array[i] != NULL)
+		{
+			free(array[i]);
+		}
+	}
+
+	free(array);
+}
 /**
  * _strdup - Duplicates a string.
  * @str: Pointer to the original string.

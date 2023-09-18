@@ -60,11 +60,11 @@ char *removeBin(char *input)
 
 	if (*input)
 	{
-		return input;
+		return (input);
 	}
 	else
 	{
-		return NULL;
+		return (NULL);
 	}
 }
 
@@ -135,7 +135,6 @@ int executCMD(char **command, char **argv, char **envi, int **numstr, int cd)
 		waitpid(child, &status, 0);
 	}
 	free_2d_array(command);
-
 	return (WEXITSTATUS(status));
 }
 
