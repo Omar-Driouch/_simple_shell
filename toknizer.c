@@ -1,5 +1,18 @@
 #include "shell.h"
 
+/**
+ * tokenizer - Tokenize and process input line into commands.
+ * @line: A pointer to a pointer to the input line to be tokenized.
+ * @tokens: A pointer to an integer to store the number of tokens.
+ * @commands: A pointer to an array of strings to store the parsed commands.
+ * @argv: A pointer to an array of strings representing program arguments.
+ * @env: A pointer to an array of strings representing the environment.
+ * @l: A pointer to an integer representing the line number.
+ * @exi: A pointer to an integer representing the exit status.
+ * @status: A pointer to an integer to store the final status.
+ *
+ * Return: The final status after command execution.
+ */
 int tokenizer(char **line, int *tokens, char **commands,
 			  char **argv, char **env, int *l, int *exi, int *status)
 {

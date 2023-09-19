@@ -1,9 +1,20 @@
 #include "shell.h"
 
+/**
+ * executecmd - Execute a command with specified arguments.
+ * @cmd: An array of strings representing the command and its arguments.
+ * @ar: An array of strings representing the command-line arguments.
+ * @env: An array of strings representing the environment variables.
+ * @tok: A pointer to an integer representing the number of tokens.
+ * @l: A pointer to an integer representing the current line number.
+ * @ex: A pointer to an integer representing the exit status.
+ *
+ * Return: The result of executing the command.
+ */
 int executecmd(char **cmd, char **ar, char **env, int *tok, int *l, int *ex)
 {
-
 	int cd = -2;
+
 	if (_strcmp(cmd[0], "exit") == 0)
 	{
 		exit_(cmd, *l);
@@ -23,7 +34,7 @@ int executecmd(char **cmd, char **ar, char **env, int *tok, int *l, int *ex)
 	if (_strcmp(cmd[0], "cd") == 0)
 	{
 
-		if (cd_command(*tok,cmd))
+		if (cd_command(*tok, cmd))
 		{
 			cd = -1;
 		}
@@ -31,13 +42,15 @@ int executecmd(char **cmd, char **ar, char **env, int *tok, int *l, int *ex)
 		{
 			cd = 0;
 		}
-	
 	}
-
-	
 	return (executCMD(cmd, ar, env, &tok, cd));
 }
 
+/**
+ * get_Home_Dir - Retrieve the home directory of the current user.
+ * Return: A pointer to a string representing the user's home directory, or
+ * NULL if the home directory is not found or an error occurs.
+ */
 char *get_Home_Dir(void)
 {
 	const char *directory_path = "/home";

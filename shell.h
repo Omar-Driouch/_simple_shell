@@ -30,13 +30,13 @@ int _isspace(char ch);
 
 int executCMD(char **command, char **argv, char **env, int **tokens, int cd);
 
- 
- 
+
+
 void _print_str(char *str);
 int hasSubstring(char *str);
 int _strlen(char *s);
 void free_2d_array(char **array);
- 
+
 
 void exit_(char **cmd, int l);
 
