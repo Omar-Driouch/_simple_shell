@@ -88,11 +88,11 @@ char *get_Home_Dir(void)
 int Home_navigate(void)
 {
 
-	const char *home_dir = getenv("HOME");
+	const char *home_dir = my_getenv("HOME");
 
 	if (!home_dir)
 	{
-		home_dir = getenv("PWD");
+		home_dir = my_getenv("PWD");
 		if (!home_dir)
 		{
 			return (0);

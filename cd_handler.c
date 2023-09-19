@@ -12,18 +12,18 @@ int cd_command(int tokens, char **command)
 {
 	char *prev_dir = my_getenv("OLDPWD"), *cwd;
 
-	if (prev_dir == NULL && tokens == 2 && strcmp(command[1], "-") == 0)
+	if (prev_dir == NULL && tokens == 2 && _strcmp(command[1], "-") == 0)
 	{
 		prev_dir = my_getenv("PWD");
 		if (prev_dir)
 			_print_str(prev_dir), _print_str("\n");
 		return (1);
 	}
-	if (tokens == 1 || (tokens == 2 && strcmp(command[1], "~") == 0))
+	if (tokens == 1 || (tokens == 2 && _strcmp(command[1], "~") == 0))
 	{
 		return (Home_navigate());
 	}
-	else if (tokens == 2 && strcmp(command[1], "-") == 0)
+	else if (tokens == 2 && _strcmp(command[1], "-") == 0)
 	{
 		prev_dir = my_getenv("OLDPWD"), cwd = getcwd(NULL, 0);
 		_print_str(prev_dir), _print_str("\n");
@@ -57,9 +57,9 @@ int cd_command(int tokens, char **command)
  * Return: A pointer to the value of the environment variable if found, or
  * NULL if the variable is not found or if the environment is NULL.
  */
-char *my_getenv(const char *name)
+char *my_getenv(char *name)
 {
-	size_t name_len = strlen(name);
+	int name_len = _strlen(name);
 	char *result = NULL;
 	char **env = environ;
 
@@ -70,7 +70,7 @@ char *my_getenv(const char *name)
 
 	while (*env != NULL)
 	{
-		if (strncmp(*env, name, name_len) == 0 && (*env)[name_len] == '=')
+		if (_strncmp(*env, name, name_len) == 0 && (*env)[name_len] == '=')
 		{
 			result = &(*env)[name_len + 1];
 			break;
@@ -90,7 +90,7 @@ char *my_getenv(const char *name)
  */
 int set_variable_env(char *name, char *new_value)
 {
-	size_t name_len = strlen(name);
+	size_t name_len = _strlen(name);
 
 	char **env = environ;
 	int check = 0;
@@ -132,7 +132,7 @@ int set_variable_env(char *name, char *new_value)
  */
 int add_OLDPWD_to_env(char *name, char *new_value)
 {
-	size_t name_len = strlen(name);
+	int name_len = _strlen(name);
 
 	char **env = environ;
 	int check = 0;
@@ -148,7 +148,7 @@ int add_OLDPWD_to_env(char *name, char *new_value)
 		{
 
 			check = 1;
-			strcpy(*env, "OLDPWD=");
+			_strcpy(*env, "OLDPWD=");
 			*env = _concat_whitout_malloc(*env, new_value);
 
 			break;

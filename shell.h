@@ -50,7 +50,7 @@ int handle_commanets(char **cmd, int **l);
 char *get_Home_Dir(void);
 
 int cd_command(int tokens, char **command);
-char *my_getenv(const char *name);
+char *my_getenv(char *name);
 
 int set_variable_env(char *name, char *new_value);
 
@@ -65,5 +65,6 @@ int *tok, int *l, int *ex, char *lin);
 int chech_semicolon(char *source);
 
 int Home_navigate(void);
+int _atoi(char *s);
 
 #endif
