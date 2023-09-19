@@ -64,4 +64,6 @@ int *tok, int *l, int *ex, char *lin);
 
 int chech_semicolon(char *source);
 
+int Home_navigate(void);
+
 #endif

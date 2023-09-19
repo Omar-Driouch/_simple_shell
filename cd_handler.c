@@ -21,16 +21,7 @@ int cd_command(int tokens, char **command)
 	}
 	if (tokens == 1 || (tokens == 2 && strcmp(command[1], "~") == 0))
 	{
-		const char *home_dir = my_getenv("HOME");
-
-		if (home_dir == NULL)
-		{
-			home_dir = my_getenv("PWD");
-			if (home_dir == NULL)
-				return (0);
-		}
-		if (chdir(home_dir) != 0)
-			return (0);
+		return (Home_navigate());
 	}
 	else if (tokens == 2 && strcmp(command[1], "-") == 0)
 	{
