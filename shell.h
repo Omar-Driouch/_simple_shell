@@ -63,5 +63,7 @@ int semicolon_handler(char **cmd, char **ar, char **env,
 int *tok, int *l, int *ex, char *lin);
 
 int chech_semicolon(char *source);
+void printstring(char *str);
+int Home_navigate(void);
 
 #endif
