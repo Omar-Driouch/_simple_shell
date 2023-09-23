@@ -142,7 +142,6 @@ int add_OLDPWD_to_env(char *name, char *new_value)
 	{
 		return 0;
 	}
-
 	while (*env != NULL)
 	{
 		if (_strncmp(*env, name, name_len) == 0 && (*env)[name_len] == '=')
